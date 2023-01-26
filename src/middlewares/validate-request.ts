@@ -10,6 +10,8 @@ interface RequestValidator {
 export function validateRequest(validators: RequestValidator) {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log({ body: req.body })
+
             if (validators.body)
                 req.body = await validators.body.parseAsync(req.body)
 

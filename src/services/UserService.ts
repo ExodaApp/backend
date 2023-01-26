@@ -1,24 +1,19 @@
-import { PrismaClient, User } from '@prisma/client'
-import { UserModel } from '../schemas'
-
-const prisma = new PrismaClient()
+import { User } from '../types'
+import { UserRepository } from '../repositories/UserRepository'
 
 export class UserService {
-    static async getUser(address: string): Promise<User | null> {
-        const user = await prisma.user.findUnique({
-            where: { address }
-        })
+    constructor(private readonly _userRepository: UserRepository) {}
 
-        return user
+    async getUser(address: string): Promise<User | null> {
+        return this._userRepository.get(address)
     }
 
-    static async createUser(address: string): Promise<User> {
-        return await prisma.user.create({ data: { address }})
+    async createUser(address: string): Promise<User> {
+        return this._userRepository.create(address)
     }
 
-
-    static async getNonce(address: string): Promise<number | null> {
-        let user = await UserService.getUser(address)
+    async getNonce(address: string): Promise<number | null> {
+        let user = await this._userRepository.get(address)
 
         if (!user)
             return null

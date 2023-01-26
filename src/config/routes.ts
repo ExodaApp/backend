@@ -5,16 +5,18 @@ import { validateRequest } from '../middlewares/validate-request'
 
 const routes = Router()
 
+const userController = new UserController()
+
 // USER
 routes.post(
     '/user/authenticate',
     validateRequest({
         body: z.object({
             address: z.string().length(42, 'Address is not a valid ethereum address'),
-            signedMessage: z.string(),
+            signature: z.string(),
         })
     }),
-    UserController.authenticate,
+    userController.authenticate,
 )
 
 routes.post(
@@ -23,7 +25,8 @@ routes.post(
         body: z.object({
             address: z.string().length(42, 'Address is not a valid ethereum address'),
         })
-    })
+    }),
+    userController.createUser,
 )
 
 routes.get(
@@ -33,10 +36,10 @@ routes.get(
             address: z.string().length(42, 'Address is not a valid ethereum address'),
         })
     }),
-    UserController.nonce,
+    userController.nonce
 )
 
-routes.get('/user/membership', UserController.isMembershipActive)
+routes.get('/user/membership', new UserController().isMembershipActive)
 
 // EXPENSES
 

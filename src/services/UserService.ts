@@ -20,4 +20,8 @@ export class UserService {
 
         return user.nonce
     }
+
+    async increaseNonce(address: string): Promise<User> {
+        return this._userRepository.updateNumber(address, { nonce: { increment: 1 } })
+    }
 }

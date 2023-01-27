@@ -42,6 +42,8 @@ routes.get(
 routes.get('/user/membership', new UserController().isMembershipActive)
 
 // EXPENSES
+routes.post('/expenses',
+)
 
 // TRANSACTIONS
 

@@ -40,6 +40,9 @@ export class UserController {
         })
     }
 
+    /**
+    * Verify user's signature and return a JWT if valid
+    */
     public authenticate = async (
         req: Request,
         res: Response<{ jwt: string }>,
@@ -52,7 +55,11 @@ export class UserController {
             if (nonce === null)
                 throw new Error('User does not exist')
 
-            new AuthService(address, signature, nonce).authenticate()
+            const jwt = new AuthService(address, signature, nonce).authenticate()
+
+            await this._userService.increaseNonce(address)
+
+            res.json({ jwt })
         } catch (error) {
             next(error)
         }

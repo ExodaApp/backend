@@ -1,4 +1,5 @@
 import { utils as ethersUtils } from 'ethers'
+import jwt from 'jsonwebtoken'
 
 export class AuthService {
     constructor(
@@ -7,14 +8,29 @@ export class AuthService {
        public readonly nonce: number
     ) {}
 
-    public authenticate() {
-        console.log('authenticating')
-
-        if(this._isSignatureValid())
-            console.log('ready to go')
+    public authenticate(): string {
+        if(this._isSignatureValid()) 
+            return this._generateJWT()
         else
-            console.log('not ready to go')
+            throw new Error('Invalid signature')
+    }
 
+    public static isTokenValid(address: string, userJWT: string): boolean {
+        if (!process.env.JWT_SECRET)
+            throw Error('JWT secret key not set')
+
+        const signer = jwt.verify(userJWT, process.env.JWT_SECRET)
+
+        return signer === address
+    }
+
+    private _generateJWT(): string {
+        console.log('genrating jwt')
+
+        if (!process.env.JWT_SECRET)
+            throw Error('JWT secret key not set')
+
+        return jwt.sign(this.signer, process.env.JWT_SECRET)
     }
 
     private _isSignatureValid(): boolean {
@@ -22,11 +38,6 @@ export class AuthService {
             this.nonce.toString(),
             this.signature,
         )
-
-        console.log({
-            originalSigner: originalSigner.toLowerCase(),
-            currentSigner: this.signer.toLowerCase(),
-        })
 
         return originalSigner.toLowerCase() === this.signer.toLowerCase()
     }

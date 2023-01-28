@@ -42,7 +42,16 @@ routes.get(
 routes.get('/user/membership', new UserController().isMembershipActive)
 
 // EXPENSES
-routes.post('/expenses',
+routes.post(
+    '/expenses',
+    [
+        validateRequest({
+            body: z.object({
+                name: z.string(),
+                dueDate: z.date(),
+            })
+        })
+    ],
 )
 
 // TRANSACTIONS

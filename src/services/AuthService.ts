@@ -15,11 +15,11 @@ export class AuthService {
             throw new Error('Invalid signature')
     }
 
-    public static isTokenValid(address: string, userJWT: string): boolean {
+    public static isTokenValid(address: string, token: string): boolean {
         if (!process.env.JWT_SECRET)
             throw Error('JWT secret key not set')
 
-        const signer = jwt.verify(userJWT, process.env.JWT_SECRET)
+        const signer = jwt.verify(token, process.env.JWT_SECRET)
 
         return signer === address
     }

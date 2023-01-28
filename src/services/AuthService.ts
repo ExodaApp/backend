@@ -1,5 +1,10 @@
 import { utils as ethersUtils } from 'ethers'
 import jwt from 'jsonwebtoken'
+import { User } from '../types'
+
+interface TokenData {
+    userAddress: string
+}
 
 export class AuthService {
     constructor(
@@ -15,13 +20,22 @@ export class AuthService {
             throw new Error('Invalid signature')
     }
 
-    public static isTokenValid(address: string, token: string): boolean {
+    public static getDataFromToken(token: string): string {
+        if (!process.env.JWT_SECRET)
+            throw Error('JWT secret key not set')
+
+        const { userAddress } = jwt.verify(token, process.env.JWT_SECRET) as TokenData
+
+        return userAddress
+    }
+
+    public static isTokenValid(userAddress: string, token: string): boolean {
         if (!process.env.JWT_SECRET)
             throw Error('JWT secret key not set')
 
         const signer = jwt.verify(token, process.env.JWT_SECRET)
 
-        return signer === address
+        return signer === userAddress
     }
 
     private _generateJWT(): string {
@@ -30,7 +44,7 @@ export class AuthService {
         if (!process.env.JWT_SECRET)
             throw Error('JWT secret key not set')
 
-        return jwt.sign(this.signer, process.env.JWT_SECRET)
+        return jwt.sign({ userAddress: this.signer }, process.env.JWT_SECRET)
     }
 
     private _isSignatureValid(): boolean {

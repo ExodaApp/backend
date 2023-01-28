@@ -1,4 +1,5 @@
 import * as z from "zod"
+import { Currency } from "@prisma/client"
 import { CompleteUser, RelatedUserModel } from "./index"
 
 export const ExpenseModel = z.object({
@@ -7,6 +8,7 @@ export const ExpenseModel = z.object({
   dueDay: z.number().int(),
   value: z.number().int(),
   userAddress: z.string(),
+  currency: z.nativeEnum(Currency),
 })
 
 export interface CompleteExpense extends z.infer<typeof ExpenseModel> {

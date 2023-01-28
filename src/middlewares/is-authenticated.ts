@@ -13,8 +13,9 @@ export function isAuthenticated(
 
     if (!token)
         http.unauthorized('JWT not provided')
-    else if (AuthService.isTokenValid(token, address))
+    else {
+        req.userAddress = AuthService.getDataFromToken(token)
         next()
-    else
-        http.unauthorized('Invalid JWT')
+    }
 }
+

@@ -28,6 +28,7 @@ model Expense {
     dueDay Int
     value Int
     userAddress String
+    currency Currency @default(USD)
     user User @relation(fields: [userAddress], references: [address])
 }
 
@@ -39,3 +40,8 @@ model Exchange {
     user User @relation(fields: [userAddress], references: [address])
 }
 
+enum Currency {
+    USD
+    BRL
+    EUR
+}

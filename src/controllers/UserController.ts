@@ -13,30 +13,28 @@ export class UserController {
     }
 
     /**
-    * Create user if address doesn't exist on DB
+    * Create user if userAddress doesn't exist on DB
     */
     public createUser = async (
         req: Request,
-        res: Response<{ user: User }>,
+        res: Response<User>,
         next: NextFunction
     ) => {
         try {
-            res.json({
-                user: await this._userService.createUser(req.body.address)
-            })
+            res.json(
+                await this._userService.createUser(req.body.userAddress)
+            )
         } catch (error) {
             next(error)
         }
     }
 
     /**
-    * Receives user wallet address and sends back the current user nonce
+    * Receives user wallet userAddress and sends back the current user nonce
     */
     public nonce = async (req: Request, res: Response<{ nonce: number | null }>) => {
-        console.log({ this: this })
-
         res.json({
-            nonce: await this._userService.getNonce(req.params.address)
+            nonce: await this._userService.getNonce(req.params.userAddress)
         })
     }
 
@@ -49,15 +47,15 @@ export class UserController {
         next: NextFunction
     ) => {
         try {
-            const { address, signature } = req.body
-            const nonce = await this._userService.getNonce(address)
+            const { userAddress, signature } = req.body
+            const nonce = await this._userService.getNonce(userAddress)
 
             if (nonce === null)
                 throw new Error('User does not exist')
 
-            const jwt = new AuthService(address, signature, nonce).authenticate()
+            const jwt = new AuthService(userAddress, signature, nonce).authenticate()
 
-            await this._userService.increaseNonce(address)
+            await this._userService.increaseNonce(userAddress)
 
             res.json({ jwt })
         } catch (error) {

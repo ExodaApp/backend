@@ -16,4 +16,12 @@ export class ExpenseService {
     public findUserExpenses(userAddress: string): Promise<Expense[]> {
         return this._expenseRepository.findUserExpenses(userAddress)
     }
+
+    public updateExpenses(
+        id: number,
+        userAddress: string,
+        fields: Partial<CreateExpenseParams>
+    ): Promise<{ count: number }> {
+        return this._expenseRepository.update(id, userAddress, fields)
+    }
 }

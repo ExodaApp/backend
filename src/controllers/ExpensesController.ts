@@ -43,6 +43,9 @@ export class ExpenseController {
         }
     }
 
+    /**
+     * Delete single expense based on expense id and userAddress
+     */
     public deleteExpense = async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.json(
@@ -51,5 +54,18 @@ export class ExpenseController {
         } catch (error) {
             next(error)
         }
+    }
+
+    /**
+     * Update single expense based on id and userAddress
+     */
+    public updateExpense = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.userAddress, req.body))
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+
     }
 }

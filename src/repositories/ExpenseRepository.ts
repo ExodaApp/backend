@@ -6,5 +6,7 @@ export abstract class ExpenseRepository {
 
     abstract delete(id: number, userAddress: string): Promise<{ count: number }>
 
+    abstract update(id: number, userAddress: string, fields: CreateExpenseParams): Promise<{ count: number }>
+
     abstract findUserExpenses(userAddress: string): Promise<Expense[]>
 }

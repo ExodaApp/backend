@@ -1,3 +1,3 @@
 export * from "./user"
 export * from "./expense"
-export * from "./exchange"
+export * from "./exchangewallet"

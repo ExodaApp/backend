@@ -17,16 +17,26 @@ export class ExpensePrisma implements ExpenseRepository {
     })
   }
 
-  public async findUserExpenses(userAddress: string): Promise<Expense[]> {
-    return await this._prisma.expense.findMany({
+  public findUserExpenses(userAddress: string): Promise<Expense[]> {
+    return this._prisma.expense.findMany({
       where: {
         userAddress
       }
     })
   }
 
+  public update(id: number, userAddress: string, fields: CreateExpenseParams): Promise<{ count: number }> {
+    return this._prisma.expense.updateMany({
+      where: {
+        id,
+        userAddress,
+      },
+      data: fields,
+    })
+  }
+
   public async delete(id: number, userAddress: string): Promise<{ count: number }> {
-    return await this._prisma.expense.deleteMany({
+    return this._prisma.expense.deleteMany({
       where: {
         id,
         userAddress,

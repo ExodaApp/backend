@@ -18,7 +18,7 @@ datasource db {
 model User {
     address String @id @db.VarChar(42)
     expenses Expense[]
-    exchanges Exchange[]
+    exchanges ExchangeWallet[]
     nonce Int @default(0)
 }
 
@@ -32,7 +32,7 @@ model Expense {
     user User @relation(fields: [userAddress], references: [address])
 }
 
-model Exchange {
+model ExchangeWallet {
     id Int @id @default(autoincrement()) 
     address String
     name String

@@ -1,7 +1,12 @@
-import { User as PrismaUser, Expense as PrismaExpense } from '@prisma/client'
+import {
+    User as PrismaUser,
+    Expense as PrismaExpense,
+    ExchangeWallet as PrismaExchangeWallet,
+} from '@prisma/client'
 
 export type User = PrismaUser
 export type Expense = PrismaExpense
+export type ExchangeWallet = PrismaExchangeWallet
 
 export enum Currency {
     USD = "USD",

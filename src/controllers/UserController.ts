@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../services/UserService'
-import { AuthService } from '../services/AuthService'
 import { UserPrisma } from '../repositories/prisma/UserPrisma'
 import { User } from '../types'
 
@@ -36,31 +35,6 @@ export class UserController {
         res.json({
             nonce: await this._userService.getNonce(req.params.userAddress)
         })
-    }
-
-    /**
-    * Verify user's signature and return a JWT if valid
-    */
-    public authenticate = async (
-        req: Request,
-        res: Response<{ jwt: string }>,
-        next: NextFunction
-    ) => {
-        try {
-            const { userAddress, signature } = req.body
-            const nonce = await this._userService.getNonce(userAddress)
-
-            if (nonce === null)
-                throw new Error('User does not exist')
-
-            const jwt = new AuthService(userAddress, signature, nonce).authenticate()
-
-            await this._userService.increaseNonce(userAddress)
-
-            res.json({ jwt })
-        } catch (error) {
-            next(error)
-        }
     }
 
     /**

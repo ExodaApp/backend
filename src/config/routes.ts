@@ -5,25 +5,28 @@ import { ExpenseController } from '../controllers/ExpensesController'
 import { ExchangeWalletController } from '../controllers/ExchangeWalletController'
 import { validateRequest } from '../middlewares/validate-request'
 import { isAuthenticated } from '../middlewares/is-authenticated'
-import { Currency } from '../types'
+import { AuthController } from '../controllers/AuthController'
 
 const routes = Router()
 
+const authController = new AuthController()
 const userController = new UserController()
 const expenseController = new ExpenseController()
 const exchangeWalletController = new ExchangeWalletController()
 
-// USER
+// AUTH
 routes.post(
-    '/user/authenticate',
+    '/authenticate',
     validateRequest({
         body: z.object({
             userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
             signature: z.string(),
         })
     }),
-    userController.authenticate,
+    authController.authenticate,
 )
+
+// USER
 routes.post(
     '/user',
     validateRequest({

@@ -63,7 +63,6 @@ export class ExpenseController {
         try {
             res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.userAddress, req.body))
         } catch (error) {
-            console.log(error)
             next(error)
         }
 

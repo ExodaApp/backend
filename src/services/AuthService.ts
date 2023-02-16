@@ -39,8 +39,6 @@ export class AuthService {
     }
 
     private _generateJWT(): string {
-        console.log('genrating jwt')
-
         if (!process.env.JWT_SECRET)
             throw Error('JWT secret key not set')
 

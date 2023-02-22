@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import { ExpenseService } from '../services/ExpenseService'
 import { ExpensePrisma } from '../repositories/prisma/ExpensePrisma'
 import { CreateExpenseParams } from '../interfaces/CreateExpenseParams'
-import { Expense } from '../types'
 
 export class ExpenseController {
     private readonly _expenseService: ExpenseService
@@ -18,7 +17,10 @@ export class ExpenseController {
     public batchCreateExpenses = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const expenses = req.body.expenses.map((expense: CreateExpenseParams) => {
-                expense.userAddress = req.userAddress
+                if (!req.ssx.userId)
+                    throw new Error('ExpenseController: used address not found')
+
+                expense.userAddress = req.ssx.userId
                 return expense
             })
 
@@ -26,7 +28,7 @@ export class ExpenseController {
                 await this._expenseService.batchCreateExpenses(expenses)
             )
         } catch (error) {
-            next(error)
+            console.error(error)
         }
     }
 
@@ -35,8 +37,11 @@ export class ExpenseController {
      */
     public getExpenses = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            if (!req.ssx.userId)
+                throw new Error('ExpenseController: used address not found')
+
             res.json(
-                await this._expenseService.findUserExpenses(req.userAddress)
+                await this._expenseService.findUserExpenses(req.ssx.userId)
             )
         } catch (error) {
             next(error)
@@ -48,8 +53,11 @@ export class ExpenseController {
      */
     public deleteExpense = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            if (!req.ssx.userId)
+                throw new Error('ExpenseController: used address not found')
+
             res.json(
-                await this._expenseService.deleteExpense(Number(req.params.id), req.userAddress)
+                await this._expenseService.deleteExpense(Number(req.params.id), req.ssx.userId)
             )
         } catch (error) {
             next(error)
@@ -61,7 +69,10 @@ export class ExpenseController {
      */
     public updateExpense = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.userAddress, req.body))
+            if (!req.ssx.userId)
+                throw new Error('ExpenseController: used address not found')
+
+            res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.ssx.userId, req.body))
         } catch (error) {
             next(error)
         }

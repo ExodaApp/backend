@@ -11,6 +11,8 @@ export class ExpensePrisma implements ExpenseRepository {
   }
 
   public batchCreate(expenses: CreateExpenseParams[]): Promise<{ count: number }> {
+    console.log({ expenses })
+
     return this._prisma.expense.createMany({
       data: expenses,
       skipDuplicates: true,

@@ -20,7 +20,7 @@ export class ExpenseService {
     public updateExpenses(
         id: number,
         userAddress: string,
-        fields: Partial<CreateExpenseParams>
+        fields: CreateExpenseParams
     ): Promise<{ count: number }> {
         return this._expenseRepository.update(id, userAddress, fields)
     }

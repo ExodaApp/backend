@@ -14,17 +14,17 @@ const userController = new UserController()
 const expenseController = new ExpenseController()
 const exchangeWalletController = new ExchangeWalletController()
 
-// AUTH
-routes.post(
-    '/authenticate',
-    validateRequest({
-        body: z.object({
-            userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
-            signature: z.string(),
-        })
-    }),
-    authController.authenticate,
-)
+// // AUTH
+// routes.post(
+//     '/authenticate',
+//     validateRequest({
+//         body: z.object({
+//             userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
+//             signature: z.string(),
+//         })
+//     }),
+//     authController.authenticate,
+// )
 
 // USER
 routes.post(
@@ -36,15 +36,15 @@ routes.post(
     }),
     userController.createUser,
 )
-routes.get(
-    '/user/:userAddress/nonce',
-    validateRequest({
-        params: z.object({
-            userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
-        })
-    }),
-    userController.nonce
-)
+// routes.get(
+//     '/user/:userAddress/nonce',
+//     validateRequest({
+//         params: z.object({
+//             userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
+//         })
+//     }),
+//     userController.nonce
+// )
 routes.get('/user/membership', new UserController().isMembershipActive)
 
 // EXPENSES

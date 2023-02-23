@@ -16,13 +16,27 @@ export class UserController {
     */
     public createUser = async (
         req: Request,
-        res: Response<User>,
+        res: Response<{ user: User }>,
         next: NextFunction
     ) => {
         try {
-            res.json(
-                await this._userService.createUser(req.body.userAddress)
-            )
+            res.json({
+                user: await this._userService.createUser(req.body.userAddress)
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public getUser = async (
+        req: Request,
+        res: Response<{ user: User | null }>,
+        next: NextFunction
+    ) => {
+        try {
+            res.json({
+                user: await this._userService.getUser(req.params.userAddress) || null
+            })
         } catch (error) {
             next(error)
         }

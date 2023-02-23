@@ -30,11 +30,6 @@ export class App {
     }
 
     private ssx() {
-        console.log({
-            signingKey: process.env.SIGNING_KEY,
-            apiKey: process.env.SSX_KEY,
-        })
-
         const ssx = new SSXServer({
             signingKey: process.env.SIGNING_KEY,
             providers: {
@@ -47,7 +42,7 @@ export class App {
         
         this.express.use(
             SSXExpressMiddleware(
-                ssx,
+               ssx,
                 {
                     nonce: '/nonce',
                     login: '/login',

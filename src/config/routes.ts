@@ -5,26 +5,12 @@ import { ExpenseController } from '../controllers/ExpensesController'
 import { ExchangeWalletController } from '../controllers/ExchangeWalletController'
 import { validateRequest } from '../middlewares/validate-request'
 import { isAuthenticated } from '../middlewares/is-authenticated'
-import { AuthController } from '../controllers/AuthController'
 
 const routes = Router()
 
-const authController = new AuthController()
 const userController = new UserController()
 const expenseController = new ExpenseController()
 const exchangeWalletController = new ExchangeWalletController()
-
-// // AUTH
-// routes.post(
-//     '/authenticate',
-//     validateRequest({
-//         body: z.object({
-//             userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
-//             signature: z.string(),
-//         })
-//     }),
-//     authController.authenticate,
-// )
 
 // USER
 routes.post(
@@ -36,16 +22,8 @@ routes.post(
     }),
     userController.createUser,
 )
-// routes.get(
-//     '/user/:userAddress/nonce',
-//     validateRequest({
-//         params: z.object({
-//             userAddress: z.string().length(42, 'Address is not a valid ethereum userAddress'),
-//         })
-//     }),
-//     userController.nonce
-// )
-routes.get('/user/membership', new UserController().isMembershipActive)
+routes.get('/user/:userAddress', userController.getUser)
+routes.get('/user/membership', userController.isMembershipActive)
 
 // EXPENSES
 routes.get('/expense', isAuthenticated, expenseController.getExpenses)

@@ -39,11 +39,9 @@ export class ExpenseController {
      */
     public getExpenses = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            if (!req.ssx.userId)
-                throw new Error('ExpenseController: used address not found')
-
             res.json(
-                await this._expenseService.findUserExpenses(req.ssx.userId)
+                // @ts-ignore
+                await this._expenseService.findUserExpenses(req.ssx.siwe?.data.address)
             )
         } catch (error) {
             next(error)

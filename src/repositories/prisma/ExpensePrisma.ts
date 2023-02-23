@@ -22,7 +22,7 @@ export class ExpensePrisma implements ExpenseRepository {
   public findUserExpenses(userAddress: string): Promise<Expense[]> {
     return this._prisma.expense.findMany({
       where: {
-        userAddress
+        userAddress: userAddress.toLowerCase()
       }
     })
   }
@@ -31,7 +31,7 @@ export class ExpensePrisma implements ExpenseRepository {
     return this._prisma.expense.updateMany({
       where: {
         id,
-        userAddress,
+        userAddress: userAddress.toLowerCase(),
       },
       data: fields,
     })
@@ -41,7 +41,7 @@ export class ExpensePrisma implements ExpenseRepository {
     return this._prisma.expense.deleteMany({
       where: {
         id,
-        userAddress,
+        userAddress: userAddress.toLowerCase(),
       }
     })
   }

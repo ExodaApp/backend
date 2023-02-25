@@ -12,7 +12,10 @@ export class ExchangeWalletPrisma implements ExchangeWalletRepository {
 
   public create(exchangeWallet: CreateExchangeWalletParams): Promise<ExchangeWallet> {
     return this._prisma.exchangeWallet.create({
-      data: exchangeWallet
+      data: {
+        ...exchangeWallet,
+        userAddress: exchangeWallet.userAddress.toLowerCase(),
+      }
     })
   }
 
@@ -20,7 +23,7 @@ export class ExchangeWalletPrisma implements ExchangeWalletRepository {
     return this._prisma.exchangeWallet.deleteMany({
       where: {
         id,
-        userAddress,
+        userAddress: userAddress.toLowerCase(),
       }
     })
   }
@@ -29,7 +32,7 @@ export class ExchangeWalletPrisma implements ExchangeWalletRepository {
     return this._prisma.exchangeWallet.updateMany({
       where: {
         id,
-        userAddress,
+        userAddress: userAddress.toLowerCase(),
       },
       data: exchangeWallet,
     })
@@ -38,7 +41,7 @@ export class ExchangeWalletPrisma implements ExchangeWalletRepository {
   public findUserExchangeWallets(userAddress: string): Promise<ExchangeWallet[]> {
     return this._prisma.exchangeWallet.findMany({
       where: {
-        userAddress,
+        userAddress: userAddress.toLowerCase(),
       }
     })
   }

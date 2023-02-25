@@ -17,11 +17,8 @@ export class ExpenseController {
     public batchCreateExpenses = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const expenses = req.body.expenses.map((expense: CreateExpenseParams) => {
-
                 // @ts-ignore
                 expense.userAddress = req.ssx.siwe?.data.address.toLowerCase()
-
-                console.log('USER ADDRESS: ', expense.userAddress)
 
                 return expense
             })
@@ -57,7 +54,8 @@ export class ExpenseController {
                 throw new Error('ExpenseController: used address not found')
 
             res.json(
-                await this._expenseService.deleteExpense(Number(req.params.id), req.ssx.userId)
+                // @ts-ignore
+                await this._expenseService.deleteExpense(Number(req.params.id), req.ssx.siwe?.data.address)
             )
         } catch (error) {
             next(error)
@@ -72,7 +70,8 @@ export class ExpenseController {
             if (!req.ssx.userId)
                 throw new Error('ExpenseController: used address not found')
 
-            res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.ssx.userId, req.body))
+            //@ts-ignore
+            res.json(await this._expenseService.updateExpenses(Number(req.params.id), req.ssx.siwe?.data.address, req.body))
         } catch (error) {
             next(error)
         }

@@ -13,7 +13,8 @@ export class ExchangeWalletController {
     public getExchangeWallets = async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.json(
-                await this._exchangeWalletService.findUserExpenses(req.userAddress)
+                // @ts-ignore
+                await this._exchangeWalletService.findUserExpenses(req.ssx.siwe?.data.address)
             )
         } catch (error) {
             next(error)
@@ -23,7 +24,8 @@ export class ExchangeWalletController {
     public createExchangeWallet = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const exchangeWallet = req.body
-            exchangeWallet.userAddress = req.userAddress
+            // @ts-ignore
+            exchangeWallet.userAddress = req.ssx.siwe?.data.address
 
             res.json(
                 await this._exchangeWalletService.createExchangeWallet(exchangeWallet)
@@ -36,7 +38,8 @@ export class ExchangeWalletController {
     public deleteExchangeWallet = async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.json(
-                await this._exchangeWalletService.deleteExchangeWallet(Number(req.params.id), req.userAddress)
+                // @ts-ignore
+                await this._exchangeWalletService.deleteExchangeWallet(Number(req.params.id), req.ssx.siwe?.data.address)
             )
         } catch (error) {
             next(error)
@@ -46,7 +49,8 @@ export class ExchangeWalletController {
     public updateExchangeWallet = async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.json(
-                await this._exchangeWalletService.updateExchangeWallet(Number(req.params.id), req.userAddress, req.body)
+                // @ts-ignore
+                await this._exchangeWalletService.updateExchangeWallet(Number(req.params.id), req.ssx.siwe?.data.address, req.body)
             )
         } catch (error) {
             next(error)

@@ -44,4 +44,6 @@ enum Currency {
     USD
     BRL
     EUR
+    ARS
+    CAD
 }

@@ -36,10 +36,13 @@ export class ExpenseController {
      */
     public getExpenses = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.json(
-                // @ts-ignore
-                await this._expenseService.findUserExpenses(req.ssx.siwe?.data.address)
-            )
+            // @ts-ignore
+            const userAddress = req.ssx.siwe?.data.address
+
+            res.json({
+                items: await this._expenseService.findUserExpenses(userAddress),
+                totalUsdValue: await this._expenseService.totalExpensesUsdValue(userAddress)
+            })
         } catch (error) {
             next(error)
         }

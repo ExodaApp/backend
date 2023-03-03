@@ -10,7 +10,7 @@ dotenv.config()
 type CurrenciesToUsdExchangeRate = Omit<Record<Currency, BigNumber>, Currency.USD>
 
 export class CurrencyService {
-    public static _cache = new NodeCache({ stdTTL: 60 * 5 })
+    public static _cache = new NodeCache({ stdTTL: 60 * 60 })
     private static _awesomeApiUrl = process.env.AWESOME_API_URL
 
     public static async getUsdExchangeRate(currency: Currency): Promise<BigNumber> {
@@ -37,7 +37,7 @@ export class CurrencyService {
         const requestParams = usdPairs.reduce<string | null>(
             (acc, curr) => `${ acc ? acc + ',' : '' }${curr}-USD`,
             null,
-        ) 
+        )
 
         const { data } = await axios(`${ CurrencyService._awesomeApiUrl }/${ requestParams }`)
 

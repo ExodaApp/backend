@@ -121,4 +121,20 @@ routes.delete(
 
 // TRANSACTIONS
 
+// TOKENS
+// TODO: supported chain middleware
+routes.get(
+    '/token/:tokenAddress/price',
+    [
+        validateRequest({
+            params: z.object({
+                tokenAddress: z.string().length(42, 'Token addresss is not a valid ethereum address'),
+            }),
+            query: z.object({
+                chain: z.coerce.number()
+            })
+        })
+    ]
+)
+
 export default routes

@@ -1,15 +1,26 @@
 import { NextFunction, Request, Response } from 'express'
+import { availableChains } from '../constants/chains'
+import { toGenesisChain } from '../helpers'
 import { TokenService } from '../services/TokenService'
+import { Chain } from '../types/chain'
 
 export class TokenController {
-    public static getPrice = async (
+    public getPrice = async (
         req: Request,
         res: Response,
         next: NextFunction
     ) => {
-        const { tokenAddress } = req.params
-        const { chain } = req.query
+        try {
+            const { tokenAddress } = req.params
+            const chain: Chain = toGenesisChain(req.query.chain?.toString())
 
-        const price = TokenService.getPrice(tokenAddress, chain)
+            const price = await TokenService.getPrice(tokenAddress, chain)
+
+            res.json({
+                price: price ? price.toString() : price
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }

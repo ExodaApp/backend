@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>77/77</span>
+                <span class='fraction'>89/89</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>77/77</span>
+                <span class='fraction'>89/89</span>
             </div>
         
             
@@ -142,7 +142,31 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -228,75 +252,87 @@ export const availableChains: Chain[] = Object.values(Chains)
 export const chainsInfo: ChainMap&lt;IChainData&gt; = {
     [Chains.ETH]: {
         name: 'Ethereum',
-        icon: 'icons-ethereum',
         rpc: 'https://rpc.ankr.com/eth',
-        id: 1,
+        id: Chains.ETH,
         currency: 'ETH',
         explorer: 'https://etherscan.io',
     },
 &nbsp;
-    [Chains.ETH_TESTNET]: {
-        name: 'Goerli',
-        icon: 'icons-ethereum',
-        rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-        id: 5,
-        currency: 'ETH',
-        explorer: 'https://goerli.etherscan.io',
-    },
-&nbsp;
     [Chains.AVAX]: {
         name: 'Avalanche',
-        icon: 'icons-avalanche',
         rpc: 'https://rpc.ankr.com/avalanche',
-        id: 43114,
+        id: Chains.AVAX,
         currency: 'AVAX',
         explorer: 'https://snowtrace.io',
     },
 &nbsp;
-    [Chains.AVAX_TESTNET]: {
-        name: 'Avalanche Testnet',
-        icon: 'icons-avalanche',
-        rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
-        id: 43113,
-        currency: 'AVAX',
-        explorer: 'https://testnet.snowtrace.io',
-    },
-&nbsp;
     [Chains.POLYGON]: {
         name: 'Polygon',
-        icon: 'icons-polygon',
         rpc: 'https://rpc.ankr.com/polygon',
-        id: 137,
+        id: Chains.POLYGON,
         currency: 'MATIC',
         explorer: 'https://polygonscan.com',
     },
 &nbsp;
-    [Chains.POLYGON_TESTNET]: {
-        name: 'Polygon Testnet',
-        icon: 'icons-polygon',
-        rpc: 'https://rpc-mumbai.maticvigil.com',
-        id: 80001,
-        currency: 'MATIC',
-        explorer: 'https://mumbai.polygonscan.com',
-    },
-&nbsp;
     [Chains.BSC]: {
         name: 'BNB Chain',
-        icon: 'icons-bsc',
         rpc: 'https://rpc.ankr.com/bsc',
-        id: 56,
+        id: Chains.BSC,
         currency: 'BNB',
         explorer: 'https://bscscan.com',
     },
 &nbsp;
-    [Chains.BSC_TESTNET]: {
-        name: 'BNB Chain Testnet',
-        icon: 'icons-bsc',
-        rpc: 'https://data-seed-prebsc-1-s1.binance.org:8545',
-        id: 97,
-        currency: 'BNB',
-        explorer: 'https://testnet.bscscan.com',
+    [Chains.OPTIMISM]: {
+        name: 'Optimism',
+        rpc: 'https://rpc.ankr.com/optimism',
+        id: Chains.OPTIMISM,
+        currency: 'ETH',
+        explorer: 'https://optimistic.etherscan.io/',
     },
+&nbsp;
+    [Chains.ARBITRUIM]: {
+        name: 'Arbitruim',
+        rpc: 'https://arb1.arbitrum.io/rpc',
+        id: Chains.ARBITRUIM,
+        currency: 'ETH',
+        explorer: 'https://arbiscan.io/',
+    },
+&nbsp;
+    // [Chains.BSC_TESTNET]: {
+    //     name: 'BNB Chain Testnet',
+    //     icon: 'icons-bsc',
+    //     rpc: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+    //     id: 97,
+    //     currency: 'BNB',
+    //     explorer: 'https://testnet.bscscan.com',
+    // },
+    
+    // [Chains.POLYGON_TESTNET]: {
+    //     name: 'Polygon Testnet',
+    //     icon: 'icons-polygon',
+    //     rpc: 'https://rpc-mumbai.maticvigil.com',
+    //     id: 80001,
+    //     currency: 'MATIC',
+    //     explorer: 'https://mumbai.polygonscan.com',
+    // },
+&nbsp;
+    // [Chains.AVAX_TESTNET]: {
+    //     name: 'Avalanche Testnet',
+    //     icon: 'icons-avalanche',
+    //     rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
+    //     id: 43113,
+    //     currency: 'AVAX',
+    //     explorer: 'https://testnet.snowtrace.io',
+    // },
+&nbsp;
+    // [Chains.ETH_TESTNET]: {
+    //     name: 'Goerli',
+    //     icon: 'icons-ethereum',
+    //     rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    //     id: 5,
+    //     currency: 'ETH',
+    //     explorer: 'https://goerli.etherscan.io',
+    // },
 }
 &nbsp;
 &nbsp;
@@ -307,7 +343,7 @@ export const chainsInfo: ChainMap&lt;IChainData&gt; = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-03T23:13:38.360Z
+                at 2023-03-04T15:46:05.957Z
             </div>
         <script src="../prettify.js"></script>
         <script>

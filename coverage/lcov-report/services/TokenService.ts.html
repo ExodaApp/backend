@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>43/43</span>
+                <span class='fraction'>51/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>43/43</span>
+                <span class='fraction'>51/51</span>
             </div>
         
             
@@ -106,7 +106,15 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -122,6 +130,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -135,10 +149,11 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -149,42 +164,51 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// import { BigNumber as EthersBigNumber } from 'ethers'
-import BigNumber from 'bignumber.js';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import BigNumber from 'bignumber.js';
 import { oracles, connectors } from '../constants/oracles';
 import { providers } from '../constants/providers';
 import { notEmpty } from '../helpers';
 import { Chain } from '../types/chain';
-import { Oracle__factory } from '../types/contracts';
+import { Oracle__factory, Erc20__factory } from '../types/contracts';
+&nbsp;
+const TEN = new BigNumber(10)
 &nbsp;
 export class TokenService {
-    public static async getPrice(token: string, chain: Chain): Promise&lt;BigNumber&gt; {
+    public static async getPrice(tokenAddress: string, chain: Chain): Promise&lt;BigNumber | null&gt; {
+        const token = Erc20__factory.connect(
+            tokenAddress,
+            providers[chain],
+        )
         const oracle = Oracle__factory.connect(
             oracles[chain],
             providers[chain],
         )
 &nbsp;
-        const rates = (await Promise.all(connectors[chain].map(async (connector) =&gt; {
+        const rates = (await Promise.all(connectors[chain].map(async connectorAddress =&gt; {
             try {
-                console.log({
-                    token,
-                    connector,
-                })
-&nbsp;
-                const rate = await oracle.getRate(
-                    token,
-                    connector,
-                    false
+                const connector = Erc20__factory.connect(
+                    connectorAddress,
+                    providers[chain],
                 )
 &nbsp;
+                const [rate, tokenBasisPoints, connectorBasisPoints] = await Promise.all([
+                    oracle.getRate(token.address, connector.address, false).then(r =&gt; new BigNumber(r.toString())),
+                    token.decimals().then(d =&gt; TEN.pow(d)),
+                    connector.decimals().then(d =&gt; TEN.pow(d)),
+                ])
+&nbsp;
+                // Converting all rates to 1e18 base
                 return rate
+                    .times(tokenBasisPoints)
+                    .div(connectorBasisPoints)
             } catch (error) {
                 return null
             }
-            
         }))).filter(notEmpty)
 &nbsp;
-        console.log({ rates })
+        if (!rates.length)
+<span class="branch-0 cbranch-no" title="branch not covered" >            return null</span>
 &nbsp;
         return rates
             .reduce((acc, curr) =&gt; acc.plus(curr.toString()), new BigNumber(0))
@@ -199,7 +223,7 @@ export class TokenService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-03T23:13:38.360Z
+                at 2023-03-04T15:46:05.957Z
             </div>
         <script src="../prettify.js"></script>
         <script>

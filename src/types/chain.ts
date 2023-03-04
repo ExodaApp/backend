@@ -14,6 +14,8 @@ export const Chains = {
     AVAX,
     BSC,
     POLYGON,
+    OPTIMISM,
+    ARBITRUIM,
 } as const
 
 type ChainKey = keyof typeof Chains 
@@ -22,7 +24,6 @@ export type Chain = typeof Chains[ChainKey]
 export interface IChainData {
     name: string
     rpc: string
-    icon: string
     id: number
     currency: string
     explorer: string

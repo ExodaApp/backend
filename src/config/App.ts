@@ -21,8 +21,8 @@ export class App {
             credentials: true,
             origin: 'http://localhost:5173' 
         }))
-        this.express.use(errorHandler)
         this.express.use(express.json())
+        this.express.use(errorHandler)
     }
 
     private routes() {

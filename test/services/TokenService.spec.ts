@@ -9,10 +9,31 @@ describe('TokenService', () => {
 
         const tokenPrice = await TokenService.getPrice(tokenAddress, chain)
 
-        console.log({ tokenPrice: tokenPrice.toNumber() })
+        expect(tokenPrice).toBeInstanceOf(BigNumber)
+        expect(tokenPrice?.toNumber()).toBeLessThan(1.10)
+        expect(tokenPrice?.toNumber()).toBeGreaterThan(0.98)
+    })
+
+    it('should calculate the price for token with less than 18 decimals', async () => {
+        const tokenAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7' //  USDT (6 decimals)
+        const chain = Chains.ETH
+
+        const tokenPrice = await TokenService.getPrice(tokenAddress, chain)
 
         expect(tokenPrice).toBeInstanceOf(BigNumber)
-        expect(tokenPrice.toNumber()).toBeLessThan(1.10)
-        expect(tokenPrice.toNumber()).toBeGreaterThan(0.98)
+        expect(tokenPrice?.toNumber()).toBeLessThan(1.10)
+        expect(tokenPrice?.toNumber()).toBeGreaterThan(0.98)
+    })
+
+    it.only('should return the price for DAI on Optimism', async () => {
+        const tokenAddress = '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1'
+        const chain = Chains.OPTIMISM
+
+        const tokenPrice = await TokenService.getPrice(tokenAddress, chain)
+
+        expect(tokenPrice).toBeInstanceOf(BigNumber)
+        expect(tokenPrice?.toNumber()).toBeLessThan(1.10)
+        expect(tokenPrice?.toNumber()).toBeGreaterThan(0.98)
     })
 })
+

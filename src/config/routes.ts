@@ -5,9 +5,11 @@ import { ExpenseController } from '../controllers/ExpensesController'
 import { ExchangeWalletController } from '../controllers/ExchangeWalletController'
 import { validateRequest } from '../middlewares/validate-request'
 import { isAuthenticated } from '../middlewares/is-authenticated'
+import { TokenController } from '../controllers/TokenController'
 
 const routes = Router()
 
+const tokenController = new TokenController()
 const userController = new UserController()
 const expenseController = new ExpenseController()
 const exchangeWalletController = new ExchangeWalletController()
@@ -36,7 +38,7 @@ routes.post(
                     name: z.string(),
                     dueDay: z.number(),
                     value: z.number(),
-                    currency: z.enum(["USD", "BRL", "EUR"]),
+                    currency: z.enum(["USD", "BRL", "EUR", "ARS", "CAD"]),
                 }).array()
             })
         }),
@@ -67,7 +69,7 @@ routes.put(
                 name: z.string(),
                 dueDay: z.number(),
                 value: z.number(),
-                currency: z.enum(["USD", "BRL", "EUR"]),
+                currency: z.enum(["USD", "BRL", "EUR", "ARS", "CAD"]),
             })
         }),
         isAuthenticated,
@@ -120,5 +122,24 @@ routes.delete(
 )
 
 // TRANSACTIONS
+
+// TOKENS
+// TODO: supported chain middleware
+routes.get(
+    '/token/:tokenAddress/price',
+    [
+        validateRequest({
+            params: z.object({
+                tokenAddress: z.string().length(42, 'Token addresss is not a valid ethereum address'),
+            }),
+            query: z.object({
+                chain: z.coerce.number()
+            })
+        })
+    ],
+    tokenController.getPrice
+)
+
+// routes.get('/token/:id/price', (req, res) => res.json({ hello: req.params }))
 
 export default routes

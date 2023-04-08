@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsx watch src/index",
+    "prestart": "npm run prisma:generate && npm run generate:types",
     "start": "tsx src/index",
     "lint": "eslint --ext \".js,.ts,.tsx\" --report-unused-disable-directives */*.ts",
     "test-dev": "start-server-and-test 'tsx server' 2022 'tsx client'",

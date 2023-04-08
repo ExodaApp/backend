@@ -3,7 +3,6 @@
   "private": false,
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
     "dev": "tsx watch src/index",
     "start": "tsx src/index",
     "lint": "eslint --ext \".js,.ts,.tsx\" --report-unused-disable-directives */*.ts",

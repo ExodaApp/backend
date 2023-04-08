@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Request, Response, Router } from 'express'
 import * as z from 'zod'
 import { UserController } from '../controllers/UserController'
 import { ExpenseController } from '../controllers/ExpensesController'
@@ -13,6 +13,10 @@ const tokenController = new TokenController()
 const userController = new UserController()
 const expenseController = new ExpenseController()
 const exchangeWalletController = new ExchangeWalletController()
+
+// HEALTH-CHECK
+routes.get('/health-check', (_: Request, res: Response) => res.status(200).send())
+routes.get('/', (_: Request, res: Response) => res.send('Exoda API'))
 
 // USER
 routes.post(

@@ -19,7 +19,7 @@ export class App {
     private middlewares() {
         this.express.use(cors({
             credentials: true,
-            origin: 'https://exoda.app',
+            origin: ['https://exoda.app', 'https://www.exoda.app'],
         }))
         this.express.use(express.json())
         this.express.use(errorHandler)

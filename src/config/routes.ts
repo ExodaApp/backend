@@ -16,6 +16,7 @@ const exchangeWalletController = new ExchangeWalletController()
 
 // HEALTH-CHECK
 routes.get('/health-check', (_: Request, res: Response) => res.status(200).send())
+routes.get('/', (_: Request, res: Response) => res.send('Exoda API'))
 
 // USER
 routes.post(

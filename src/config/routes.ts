@@ -42,7 +42,7 @@ routes.post(
                     name: z.string(),
                     dueDay: z.number(),
                     value: z.number(),
-                    currency: z.enum(["USD", "BRL", "EUR", "ARS", "CAD"]),
+                    currency: z.enum(["USD", "BRL", "EUR", "ARS", "CAD", "JPY"]),
                 }).array()
             })
         }),

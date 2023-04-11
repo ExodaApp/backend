@@ -21,7 +21,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const UserScalarFieldEnumSchema = z.enum(['address','nonce']);
 
-export const CurrencySchema = z.enum(['USD','BRL','EUR','ARS','CAD']);
+export const CurrencySchema = z.enum(['USD','BRL','EUR','ARS','CAD','JPY']);
 
 export type CurrencyType = `${z.infer<typeof CurrencySchema>}`
 

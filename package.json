@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsx watch src/index",
-    "prestart": "npm run prisma:generate && npm run generate:types",
+    "prestart": "npm run prisma:generate && npm run prisma:migrate && npm run generate:types",
     "start": "tsx src/index",
     "lint": "eslint --ext \".js,.ts,.tsx\" --report-unused-disable-directives */*.ts",
     "test-dev": "start-server-and-test 'tsx server' 2022 'tsx client'",
@@ -12,6 +12,7 @@
     "test": "jest",
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "prisma generate",
+    "prisma:migrate":"npx prisma migrate dev",
     "generate:types": "typechain --target ethers-v5 --out-dir ./src/types/contracts ./src/abis/*.json"
   },
   "workspaces": [

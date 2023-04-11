@@ -14,4 +14,5 @@ export enum Currency {
     ARS = 'ARS',
     EUR = 'EUR',
     CAD = 'CAD',
+    JPY = 'JPY',
 }

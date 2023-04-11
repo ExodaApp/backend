@@ -46,6 +46,8 @@ export class CurrencyService {
             ARS: new BigNumber(data['ARSUSD'].high),
             EUR: new BigNumber(data['EURUSD'].high),
             CAD: new BigNumber(data['CADUSD'].high),
+            // TODO: check if API still broken
+            JPY: new BigNumber(data['JPYUSD'].high).div(100), 
         }
     }
 

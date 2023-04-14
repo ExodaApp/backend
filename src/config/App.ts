@@ -20,7 +20,11 @@ export class App {
     this.express.use(
       cors({
         credentials: true,
-        origin: ["https://exoda.app", "https://www.exoda.app"],
+        origin: [
+          "https://exoda.app",
+          "https://www.exoda.app",
+          "https://app.exoda.app",
+        ],
       })
     );
     this.express.use(express.json());
@@ -32,8 +36,6 @@ export class App {
   }
 
   private ssx() {
-    console.log(process.env.SIGNING_KEY);
-
     const ssx = new SSXServer({
       signingKey: process.env.SIGNING_KEY,
       providers: {

@@ -23,7 +23,9 @@ export class App {
         origin: [
           "https://exoda.app",
           "https://www.exoda.app",
-          "https://app.exoda.app",
+          ...(process.env.NODE_ENV === "development"
+            ? ["http://localhost:5173"]
+            : []),
         ],
       })
     );
@@ -42,7 +44,8 @@ export class App {
         sessionConfig: {
           sessionOptions: {
             cookie: {
-              domain: ".exoda.app",
+              domain:
+                process.env.NODE_ENV === "development" ? "" : ".exoda.app",
             },
           },
         },

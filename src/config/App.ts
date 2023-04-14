@@ -32,6 +32,8 @@ export class App {
   }
 
   private ssx() {
+    console.log(process.env.SIGNING_KEY);
+
     const ssx = new SSXServer({
       signingKey: process.env.SIGNING_KEY,
       providers: {

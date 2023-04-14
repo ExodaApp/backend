@@ -39,6 +39,13 @@ export class App {
     const ssx = new SSXServer({
       signingKey: process.env.SIGNING_KEY,
       providers: {
+        sessionConfig: {
+          sessionOptions: {
+            cookie: {
+              domain: ".exoda.app",
+            },
+          },
+        },
         metrics: {
           service: "ssx",
           apiKey: process.env.SSX_KEY || "",
